@@ -18,20 +18,28 @@ GET /candidates/search?skills=javascript,express,mongodb – nd and return the c
  "name": "John Coder", 
  "skills": [ "javascript", "es6", "nodejs", "express" ] 
 } 
+
 The HTTP response code must be 200 if a candidate is found with at least one matching skill, or 404 if no suitable candidates exist. Added candidates should be kept in memory; no database/storage back-end is available. 
+
 Each search request should return the candidate with the best coverage of the requested skills – if ve different skills are requested, then a candidate who has four of them is better than a candidate who has only three of them, and so on. 
+
 If two or more candidates have the same coverage (for example, both have seven out of ten requested skills), any of these candidates may be returned – additional skills (which were not requested) do not matter. 
+
 If no candidates match any skills, or no candidates exist at all, then the response must have an HTTP status code of 404. The response body is not important in such cases. 
+
 If the request is invalid (has no body in the case of POST, or no ?skills=... in GET) then status code 400 (Bad Request) must be returned. HTTP 5xx error codes are considered errors and must not be returned. 
 Input guarantees 
+
 For simplicity, assume the following to be true: 
 Each candidate has a unique id – the server will never receive two POSTs with the same id; 
 id is any string from 1 to 100 characters; 
 name is any string from 1 to 100 characters; 
 skills is an array of strings from 1 to 100 characters, being letters, numbers or hyphens ([a-zA-Z0-9-]+), with a maximum of 10,000 elements); elements in the array or in query strings are not duplicated (there is no [ "skill1", "skill2", "skill1" ]). 
 Additional examples 
+
 Example 1 
 With no candidates added, our request GET /candidates/search?skills=javascript,react,typescript should result in a 404 response code. 
+
 Example 2 
 If we add a candidate such as: 
 { 
@@ -44,6 +52,7 @@ then a search for /candidates/search?skills=go,elixir,erlang should return:
  "id": "person1", 
  "name": "Amy Fish", 
  "skills": [ "scala", "go" ] 
+
 } 
 Example 3 
 If we add two candidates: 
